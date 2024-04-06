@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Link } from 'expo-router'
-import { useState } from 'react'
+import { useSignUp } from '@clerk/clerk-expo'
+import { Link, useRouter } from 'expo-router'
+import { useCallback, useState } from 'react'
 import {
   KeyboardAvoidingView,
   Platform,
@@ -19,7 +20,27 @@ const SignUp = () => {
   const [countryCode, setCountryCode] = useState('+55')
   const [phoneNumber, setPhoneNumber] = useState('')
 
-  const handleSignUp = () => {}
+  const router = useRouter()
+  const { signUp } = useSignUp()
+
+  const handleSignUp = useCallback(async () => {
+    const fullPhoneNumber = `${countryCode}${phoneNumber}`
+
+    try {
+      await signUp!.create({
+        phoneNumber: fullPhoneNumber,
+      })
+
+      await signUp!.preparePhoneNumberVerification()
+
+      router.push({
+        pathname: '/verify/[phone]',
+        params: { phone: fullPhoneNumber },
+      })
+    } catch (err) {
+      console.log('error', JSON.stringify(err, null, 2))
+    }
+  }, [countryCode, phoneNumber, router, signUp])
 
   return (
     <KeyboardAvoidingView
@@ -29,7 +50,7 @@ const SignUp = () => {
     >
       <View style={defaultStyles.container}>
         <Text style={defaultStyles.header}>Let's get started!</Text>
-        <Text style={styles.descriptionText}>
+        <Text style={defaultStyles.descriptionText}>
           Enter your phone number. We will send you a confirmation code there
         </Text>
         <View style={styles.inputContainer}>
@@ -37,6 +58,7 @@ const SignUp = () => {
             style={[styles.input, { width: 80 }]}
             placeholder="+55"
             placeholderTextColor={Colors.gray}
+            keyboardType="numeric"
             onChangeText={setCountryCode}
             value={countryCode}
           />
@@ -46,12 +68,13 @@ const SignUp = () => {
             placeholder="Mobile number"
             placeholderTextColor={Colors.gray}
             value={phoneNumber}
+            keyboardType="numeric"
             onChangeText={setPhoneNumber}
             autoFocus
           />
         </View>
 
-        <Link href={'/login'} asChild>
+        <Link href={'/login'} asChild replace>
           <TouchableOpacity>
             <Text style={[defaultStyles.textLink]}>
               Already have an account? Log in
@@ -70,7 +93,7 @@ const SignUp = () => {
           disabled={!phoneNumber}
           onPress={handleSignUp}
         >
-          <Text style={[styles.buttonText]}>Sign up</Text>
+          <Text style={[defaultStyles.buttonText]}>Sign up</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -78,16 +101,6 @@ const SignUp = () => {
 }
 
 const styles = StyleSheet.create({
-  descriptionText: {
-    fontSize: 18,
-    marginTop: 20,
-    color: Colors.gray,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '500',
-  },
   inputContainer: {
     marginVertical: 40,
     flexDirection: 'row',
