@@ -1,5 +1,6 @@
-import { StyleSheet } from 'react-native';
-import Colors from '@/constants/Colors';
+import { StyleSheet } from 'react-native'
+
+import Colors from '~/constants/colors'
 
 export const defaultStyles = StyleSheet.create({
   container: {
@@ -58,4 +59,4 @@ export const defaultStyles = StyleSheet.create({
     borderRadius: 16,
     gap: 20,
   },
-});
+})
