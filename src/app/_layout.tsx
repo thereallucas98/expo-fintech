@@ -58,11 +58,8 @@ function InitialLayout() {
 
     const inAuthGroup = segments[0] === '(authenticated)'
 
-    console.log('inAuthGroup', inAuthGroup)
-    console.log('isSignedIn', isSignedIn)
-
     if (isSignedIn && !inAuthGroup) {
-      router.replace('/(authenticated)/home')
+      router.replace('/(authenticated)/(tabs)/home')
     } else if (!isSignedIn) {
       router.replace('/')
     }
@@ -139,7 +136,10 @@ function InitialLayout() {
           ),
         }}
       />
-      <Stack.Screen name="(authenticated)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="(authenticated)/(tabs)"
+        options={{ headerShown: false }}
+      />
     </Stack>
   )
 }
