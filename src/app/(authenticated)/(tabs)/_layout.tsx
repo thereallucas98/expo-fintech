@@ -2,7 +2,7 @@ import { FontAwesome } from '@expo/vector-icons'
 import { BlurView } from 'expo-blur'
 import { Tabs } from 'expo-router'
 
-import CustomerHeader from '~/components/customer-header'
+import CustomerHeader from '~/components/custom-header'
 import Colors from '~/constants/colors'
 
 const Layout = () => {
@@ -63,6 +63,8 @@ const Layout = () => {
           tabBarIcon: ({ size, color }) => (
             <FontAwesome name="bitcoin" size={size} color={color} />
           ),
+          header: () => <CustomerHeader />,
+          headerTransparent: true,
         }}
       />
       <Tabs.Screen

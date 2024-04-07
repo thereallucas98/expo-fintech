@@ -1,5 +1,6 @@
 import { ClerkProvider, useAuth } from '@clerk/clerk-expo'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
+import { QueryClientProvider } from '@tanstack/react-query'
 import { useFonts } from 'expo-font'
 import { Link, Stack, useRouter, useSegments } from 'expo-router'
 import * as SecureStore from 'expo-secure-store'
@@ -10,6 +11,7 @@ import { TouchableOpacity } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import Colors from '~/constants/colors'
+import { queryClient } from '~/lib/query-client'
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY
 
@@ -164,10 +166,12 @@ function RootLayoutNav() {
       publishableKey={CLERK_PUBLISHABLE_KEY!}
       tokenCache={tokenCache}
     >
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <StatusBar style="dark" />
-        <InitialLayout />
-      </GestureHandlerRootView>
+      <QueryClientProvider client={queryClient}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <StatusBar style="dark" />
+          <InitialLayout />
+        </GestureHandlerRootView>
+      </QueryClientProvider>
     </ClerkProvider>
   )
 }
