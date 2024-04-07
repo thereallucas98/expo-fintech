@@ -1,5 +1,5 @@
 import React from 'react'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { View } from 'react-native'
 
 import { MARGIN } from './config'
 import SortableList from './sortable-list'
@@ -22,9 +22,10 @@ const tiles = [
 
 const WidgetList = () => {
   return (
-    <GestureHandlerRootView
+    <View
       style={{
         paddingHorizontal: MARGIN,
+        marginBottom: 80,
       }}
     >
       <SortableList
@@ -41,7 +42,7 @@ const WidgetList = () => {
           />
         ))}
       </SortableList>
-    </GestureHandlerRootView>
+    </View>
   )
 }
 

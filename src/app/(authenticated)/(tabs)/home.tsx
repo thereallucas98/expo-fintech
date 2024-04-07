@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons'
+import { useHeaderHeight } from '@react-navigation/elements'
 import {
   ScrollView,
   StyleSheet,
@@ -17,6 +18,7 @@ import { useBalanceStore } from '~/store/balance-storage'
 const Home = () => {
   const { balance, runTransaction, transactions, clearTransactions } =
     useBalanceStore()
+  const headerHeight = useHeaderHeight()
 
   const onAddMoney = () => {
     const foo = Math.random() > 0.5 ? 1 : -1
@@ -31,8 +33,11 @@ const Home = () => {
   }
 
   return (
-    <ScrollView style={{ backgroundColor: Colors.background }}>
-      <View style={styles.account}>
+    <ScrollView
+      style={{ backgroundColor: Colors.background }}
+      contentContainerStyle={{ paddingTop: headerHeight }}
+    >
+      <View style={[styles.account, { zIndex: 1000 }]}>
         <View style={styles.row}>
           <Text style={styles.balance}>{balance()}</Text>
           <Text style={styles.currency}>€</Text>

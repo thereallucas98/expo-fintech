@@ -140,6 +140,20 @@ function InitialLayout() {
         name="(authenticated)/(tabs)"
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="(authenticated)/(modals)/account"
+        options={{
+          presentation: 'transparentModal',
+          animation: 'fade',
+          headerTransparent: true,
+          title: '',
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.back()}>
+              <Ionicons name="close-outline" size={30} color={'#fff'} />
+            </TouchableOpacity>
+          ),
+        }}
+      />
     </Stack>
   )
 }
